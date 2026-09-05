@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <br><br>
+<div class="container">
+<div class="row">
+    <center>
+        <div style="color: rgb(243, 243, 237);" ,  class="col-8">
+
+<h3>orders details</h3>
+
+<div class="card">
+  <div class="card-header">
+    order {{ order.id }}- {{ order.amount_paid }}Toman
+  </div>
+  <div class="card-body">
+    name:{{ order.full_name }}<br>
+    email: {{ order.email }}<br>
+    address: {{ order.shippingdress }}<br>
+    date of order:{{ order.date_ordered|date:"Y-m-d H:i:s"  }}<br>
+    last update: {{ order.last_update }}<br>
+    status:{{ order.get_status_dispaly }}<br>
+    <hr>
+    products:<br>
+    {% for item in items %}
+    {{ item.product }} | amount {{ item.quantity }} number | {{ item.price }} Toman <br>
+    {% endfor %}
+
+  </div>
+</div>
+    <a href="{% url 'orders' %}" class="btn btn-primary">return to orders</a>
+            </div>
+    </center>
+</div>
+
+</div>
+    <br><br>
+{% endblock %}

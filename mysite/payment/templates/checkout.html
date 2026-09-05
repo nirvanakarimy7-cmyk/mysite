@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}         
+<!-- Header-->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">bill</h1>
+                <p class="lead fw-normal text-white-50 mb-0">check everything please</p>
+            </div>
+        </div>
+    </header>
+    <br>
+   
+<div class="container">
+<div class="row">
+    <center>
+        <p style="font-size: larger;">
+        <div style="color: rgb(0, 0, 0);" ,  class="col-10">
+            <div class="card">
+  <div class="card-header">
+   summary of your order
+  </div>
+  <div class="card-body">
+          {% for product in cart_products %}
+{{ product.name }} <br>
+<small>
+    money :
+{% if product.is_sale %}
+{{ product.sale_price }}
+{% else %}
+{{ product.price }}
+{% endif %}
+{% endfor %}
+</small> <br>
+
+
+<small>
+amount:
+ {% for key,value in quantities.item %}
+        {% if key == product.id|slugify %}
+        {{ value }}
+        {% endif %}
+ {% endfor %}
+ </small> <br>
+
+<hr>
+<strong >total {{ total }}</strong>
+<br>
+<a href="{% url 'cart_summery' %}" class="btn btn-sm btn-outline-secondary">edit orders</a>
+
+
+  </div>
+  <br>
+  <div class="card-header">
+  مشخصات ارسال
+  </div>
+  <div class="card-body">
+    <form action="{%url 'confirm_order'}" method="POST">
+        {% csrf_token %}
+{{ shipping_form.as_p }}
+  </div>
+</div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-sm btn-outline-secondary">continue </button>
+       </form>
+        </center>
+        </div>
+</div>
+</p>
+
+    
+<br><br><br><br><br><br>
+
+        {% endblock %}
+
+

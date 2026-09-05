@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}         
+
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">your cart</h1>
+            <p class="lead fw-normal text-white-50 mb-0">buy darling , why not?!</p>
+        </div>
+    </div>
+</header>
+
+<br>
+
+{% if cart_products %}
+
+{% for product in cart_products %}
+
+<div class="container">
+<div class="card">
+
+  <img src="{{ product.picture.url }}" class="card-img-top" alt="...">
+
+  <div class="card-body">
+
+    <h5 class="card-title">{{ product.name }}</h5>
+    
+    <p class="card-text">{{ product.description }}</p>
+
+{% if product.is_sale %}
+
+    <p class="card-text">
+        💸 price:
+        <strike>{{ product.price}}</strike>
+        {{ product.sale_price }}
+    </p>
+     
+{% else %}
+
+    <p class="card-text">
+        💸 price: {{ product.price}}
+    </p>
+
+{% endif %}
+
+    <p class="card-text">the numbers:
+    <select class="form-select form-select-sm" id="cart-qty{{ product.id }}">
+
+        {% for key,value in quantities.items %}
+
+            {% if key == product.id|slugify %}
+
+                <option value="1" {% if value == 1 %}selected{% endif %}>
+                    One
+                </option>
+
+                <option value="2" {% if value == 2 %}selected{% endif %}>
+                    Two
+                </option>
+
+                <option value="3" {% if value == 3 %}selected{% endif %}>
+                    Three
+                </option>
+
+            {% endif %}
+
+        {% endfor %}
+
+    </select>
+
+    </p>
+
+    <br><br>
+
+  </div>
+</div>
+
+
+<button
+    type="button"
+    class="btn btn-primary update-cart"
+    data-index="{{ product.id }}">
+    Edit
+</button>
+
+
+<button
+    type="button"
+    class="btn btn-danger delete_product"
+    data-index="{{ product.id }}">
+    Delete
+</button> 
+
+
+<a href="{% url 'home' %}" class="btn btn-secondary">
+    home
+</a>
+
+</div>
+
+{% endfor %}
+
+<br><br><br>
+
+<h2 class="text-center fw-bold text-success my-4">
+    💰 Total Price: {{ total }} Toman
+</h2>
+
+<br>
+
+<a href="{% url 'checkout' %}" class="btn btn-success">
+    bill
+</a>
+
+{% else %}
+
+<br><br><br>
+
+<center>
+    <h3 class="container">
+        your cart is empty &#128531;
+    </h3>
+</center>
+
+{% endif %}
+
+<br><br><br><br><br><br>
+
+
+<script>
+
+
+
+$(document).on('click', '.update-cart', function(e){
+
+    e.preventDefault();
+
+    var productid = $(this).data('index');
+
+    
+    var quantity = $('#cart-qty' + productid).val();
+
+    $.ajax({
+
+        type: 'POST',
+
+        url: "{% url 'cart_update' %}",
+
+        data: {
+
+     
+            product_id: productid,
+
+            product_qty: quantity,
+
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+
+            action: 'post'
+
+        },
+
+        success: function(json){
+
+            location.reload();
+
+        },
+
+        error: function(xhr, errmsg, err){
+
+            console.log(errmsg);
+
+        }
+
+    });
+
+});
+$(document).on('click', '.delete_product', function(e){
+
+    e.preventDefault();
+
+    var productid = $(this).data('index');
+
+    $.ajax({
+
+        type: 'POST',
+
+        url: "{% url 'cart_delete' %}",
+
+        data: {
+
+            product_id: productid,
+
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+
+            action: 'post'
+
+        },
+
+        success: function(json){
+
+            location.reload();
+
+        },
+
+        error: function(xhr, errmsg, err){
+
+            console.log(errmsg);
+
+        }
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <br><br>
+<div class="container">
+<div class="row">
+    <center>
+        <div style="color: rgb(243, 243, 237);" ,  class="col-8">
+        {% if other %}
+        <h3>orders: </h3>
+<table class="table">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">number of order</th>
+      <th scope="col">name</th>
+      <th scope="col">date</th>
+      <th scope="col">status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in other %}
+    <tr>
+      <th scope="row"><a href="{% urlf 'order_details' order.id %}">number of order{{order.id }}</a></th>
+      <td>{{order.full_name}}</td>
+      <td{{ order.date_ordered|date:"Y-m-d H:i:s" }}</td>
+      <td>{{ order.get_status_display }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% else %}
+there is no orders
+{% endif %}
+<br><br>
+<h1>
+{% if delivered %}
+        <h3>تحویل داده شده: </h3>
+<table class="table">
+  <thead class="table-success">
+    <tr>
+      <th scope="col">number of order</th>
+      <th scope="col">name</th>
+      <th scope="col">date of recieve </th>
+      <th scope="col">status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in delivered %}
+    <tr>
+      <th scope="row"><a href="{% urlf 'order_details' order.id %}">number of order{{order.id }}</a></th>
+      <td>{{ order.full_name }}</td>
+      <td>{{ order.last_update }}</td>
+      <td>{{ order.get_status_display }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% else %}
+there is no orders
+{% endif %}
+
+            </div>
+    </center>
+</div>
+
+</div>
+    <br><br>
+{% endblock %}
