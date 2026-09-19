@@ -3,7 +3,6 @@ from django.core.validators import MinValueValidator,MaxValueValidator
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 import datetime
-from cloudinary.models import CloudinaryField
 
 class Category(models.Model):
     name=models.CharField(max_length=20)
@@ -48,7 +47,7 @@ class Product(models.Model):
     description=models.CharField(max_length=500,default='', blank=True , null=True)
     price=models.DecimalField(default=0, decimal_places=0, max_digits=12)
     Category = models.ForeignKey(Category ,on_delete=models.CASCADE ,default=1)
-    picture =CloudinaryField('image')
+    picture =models.CharField(max_length=255, blank=True, null=True)
     star=models.IntegerField(default=0,validators=[MaxValueValidator(5),MinValueValidator(0)])
     is_sale=models.BooleanField(default=False)
     sale_price=models.DecimalField(default=0, decimal_places=0, max_digits=12)
