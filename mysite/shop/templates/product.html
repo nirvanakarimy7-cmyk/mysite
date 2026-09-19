@@ -6,8 +6,7 @@
 <div class="container">
 <div class="card">
 {% load static %}
-<img class="card-img-top" src="{% static 'products/' %}{{ item.id }}.jpg" alt="{{ item.name }}" />                        <!-- Product details-->
-
+<img class="card-img-top" src="{% static 'products/' %}{{ product.id }}.jpg" alt="{{ product.name }}" />
 <h5 class="card-title">{{ product.name }}</h5>
     
     <p class="card-text">{{ product.description }}</p>
