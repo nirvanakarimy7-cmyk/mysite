@@ -7,7 +7,9 @@
 <div class="card">
 {% load static %}
 
-<img src="{% static product.picture %}" class="card-img-top" alt="{{ product.name }}">
+<p>PICTURE = [{{ product.picture }}]</p>
+
+<img class="card-img-top" src="{% static 'products/1.jpg' %}" alt="{{ product.name }}">
     
     <p class="card-text">{{ product.description }}</p>
 {% if product.is_sale %}
