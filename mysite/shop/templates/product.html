@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
-{% load static %}
+
 {% block content %}
 
     <br><br><br><br>
 <div class="container">
 <div class="card">
-<img src="{% static product.picture %}" class="card-img-top" alt="{{ product.name }}">
+{% load static %}
+
+<img src="{% static 'products/' %}{{ product.id }}.jpg" class="card-img-top" alt="{{ product.name }}">
     <h5 class="card-title">{{ product.name }}</h5>
     
     <p class="card-text">{{ product.description }}</p>
