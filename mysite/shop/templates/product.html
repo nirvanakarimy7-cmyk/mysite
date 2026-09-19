@@ -6,8 +6,9 @@
 <div class="container">
 <div class="card">
 {% load static %}
-<img src="https://mysite-2-b2h7.onrender.com/static/products/1.jpg" class="card-img-top" alt="TEST">
-    <h5 class="card-title">{{ product.name }}</h5>
+<img class="card-img-top" src="{% static 'products/' %}{{ item.id }}.jpg" alt="{{ item.name }}" />                        <!-- Product details-->
+
+<h5 class="card-title">{{ product.name }}</h5>
     
     <p class="card-text">{{ product.description }}</p>
 {% if product.is_sale %}
